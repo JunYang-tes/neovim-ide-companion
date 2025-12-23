@@ -275,7 +275,7 @@ export async function diff(oldPath: string, newPath: string) {
         .then(b => {
           if (b) {
             logger.debug("delete buffer " + oldPath)
-            nvim.command(`bdelete! ${b.id}`)
+            return nvim.command(`bdelete! ${b.id}`)
           } else {
             logger.debug("Cannot find buffer corresponding to " + oldPath)
           }
@@ -293,7 +293,9 @@ export async function diff(oldPath: string, newPath: string) {
             logger.debug("Cannot find buffer corresponding to " + oldPath)
           }
         })
-        .catch(logger.err)
+        .catch((e) => {
+          logger.err(e, "Failed to delete buffer: " + oldPath)
+        })
     ])
     resolve(result);
   };
