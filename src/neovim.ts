@@ -4,8 +4,6 @@ import logger from './log.js';
 import { attach, findNvim } from 'neovim'
 import { isSameFile } from './fs.js';
 import { spawn, type ChildProcessWithoutNullStreams } from 'child_process';
-import { log } from 'winston';
-import { never } from 'zod/v4-mini';
 
 export interface NeovimSession {
   client: NeovimClient;
