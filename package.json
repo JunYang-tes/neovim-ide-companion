@@ -1,6 +1,6 @@
 {
   "name": "neovim-ide-companion",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A server that allows Gemini to interact with Neovim.",
   "type": "module",
   "scripts": {
