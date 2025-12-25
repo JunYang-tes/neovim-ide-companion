@@ -13,6 +13,7 @@ import logger from './log.js';
 import { OpenFilesManager } from './open-files-manager.js';
 import { ClaudeIdeServer } from './claude.js'
 import { GeminiIdeServer } from './gemini.js';
+import { PORT_IN_USE } from './exit-code.js';
 
 const MCP_SESSION_ID_HEADER = 'mcp-session-id';
 
@@ -54,14 +55,19 @@ export class IDEServer {
     app.use(express.json());
     this.claudeIdeServer.start(app, port);
     this.geminiIdeServer.start(app)
-    this.server = app.listen(port, () => {
+    this.server = app.listen(port, (err) => {
+      if (err) {
+        logger.err(err, "Failed to start IDE server")
+        process.exit(PORT_IN_USE);
+      }
       const address = (this.server as HTTPServer).address();
       if (address && typeof address !== 'string') {
         const port = address.port;
         // Instead of environment variables, just log the port
         logger.info(`IDE server listening on port ${port}`);
       }
-    });
+    }
+    );
   }
 
   async stop(): Promise<void> {

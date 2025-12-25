@@ -4,6 +4,7 @@ import logger from './log.js';
 import { attach, findNvim } from 'neovim'
 import { isSameFile } from './fs.js';
 import { spawn, type ChildProcessWithoutNullStreams } from 'child_process';
+import { NO_NVIM_LISTEN_ADDRESS } from './exit-code.js';
 
 export interface NeovimSession {
   client: NeovimClient;
@@ -13,7 +14,7 @@ export interface NeovimSession {
 if (!process.env['NVIM_LISTEN_ADDRESS']) {
   logger.error('environment variable NVIM_LISTEN_ADDRESS is not set');
   if (!process.env.VITEST) {
-    process.exit(1);
+    process.exit(NO_NVIM_LISTEN_ADDRESS);
   }
 }
 
