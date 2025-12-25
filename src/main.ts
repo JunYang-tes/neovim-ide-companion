@@ -16,6 +16,16 @@ async function main() {
   await server.start(port);
 }
 
+process.on('unhandledRejection', (reason) => {
+  logger.err(reason, 'Crashed with unhandledRejection');
+  process.exit(1);
+});
+
+process.on('uncaughtException', (err) => {
+  logger.err(err, 'Uncaught Exception');
+  process.exit(1);
+});
+
 main()
   .catch((err) => {
     logger.error("Crashed")
